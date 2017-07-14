@@ -26,15 +26,12 @@
 
   <ion-grid no-padding no-margin margin-top [hidden]="viewtype !== 'thumbnails'">
     <ion-row *ngFor="let row of grid">
-      <ion-col padding width-50 *ngFor="let photo of row" (click)="openModal({photoID: photo.id })">
+      <ion-col width-50 *ngFor="let photo of row" (click)="openModal({photoID: photo.id })">
         <img src="{{photo.url}}" />
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <!--<div class="col-1-4" [hidden]="viewtype !== 'thumbnails'">
-    <img src="./assets/img/huis.jpg" />
-  </div>-->
   <ion-fab bottom center>
     <button ion-fab color="secondary" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
   </ion-fab>
