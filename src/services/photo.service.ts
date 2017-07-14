@@ -22,16 +22,19 @@ export class PhotoService {
         var photos = response.json().data;
         for (var photoNr = 0; photoNr < photos.length; photoNr++) {
           var photo = photos[photoNr];
-
+          console.log("new loop" + photoNr, photo)
           if (photo.cloudurl !== undefined && photo.cloudurl.startsWith('gs://')) {
-            this.storage.refFromURL(photo.cloudurl).getMetadata().then(metadata => {
-              console.log(photo);
-              photo.url = metadata.downloadURLs[0];
-              console.log(photo)
-            });
+            console.log("be before" + photoNr, photo);
+            (function (currentPhoto, storage) {
+              storage.refFromURL(currentPhoto.cloudurl).getMetadata().then((metadata) => {
+                console.log("before" + photoNr, currentPhoto);
+                currentPhoto.url = metadata.downloadURLs[0];
+                console.log("after", currentPhoto)
+              });
+            })(photo, this.storage);
           }
         }
-        console.log(photos);
+        console.log("einde loop", photos);
         return photos;
       })
       .catch(this.handleError);
