@@ -2,22 +2,24 @@ import { Component, ViewChild } from '@angular/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';
 
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
+import { PhotoOverviewPage } from '../pages/photo-overview/photo-overview.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import * as firebase from "firebase";
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class WeddingPictures {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
-  pages: Array<{title: string, component: any}>;
+  rootPage = PhotoOverviewPage;
+  auth;
+  database;
+  storage;
+  pages: Array<{ title: string, component: any }>;
 
   constructor(
     public platform: Platform,
@@ -29,19 +31,37 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Hello Ionic', component: HelloIonicPage },
-      { title: 'My First List', component: ListPage }
+      { title: 'Bruiloft', component: PhotoOverviewPage }
     ];
   }
 
   initializeApp() {
+    this.initFireBase();
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
       this.splashScreen.hide();
+
     });
   }
+
+  initFireBase() {
+    // Initialize Firebase
+
+    var config = {
+      apiKey: "AIzaSyBlQXOs_j3vWfQJOwj8Ky0uaLEmJK14ClI",
+      authDomain: "weddingapp-173009.firebaseapp.com",
+      databaseURL: "https://weddingapp-173009.firebaseio.com",
+      projectId: "weddingapp-173009",
+      storageBucket: "weddingapp-173009.appspot.com",
+      messagingSenderId: "898788279142"
+    };
+    firebase.initializeApp(config);
+    console.log("firebase init fired");
+
+
+  }
+
 
   openPage(page) {
     // close the menu when clicking a link from the menu

@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "weddingapp-173009",
+    "staging": "weddingapp-173009"
+  }
+}
