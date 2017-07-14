@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Photo } from '../objects/photo';
 import 'rxjs/add/operator/toPromise';
-import { Http, Headers } from '@angular/http'
+import { Http, Headers } from '@angular/http';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class PhotoService {
@@ -24,11 +25,14 @@ export class PhotoService {
 
           if (photo.cloudurl !== undefined && photo.cloudurl.startsWith('gs://')) {
             this.storage.refFromURL(photo.cloudurl).getMetadata().then(metadata => {
-              photos[photoNr].url = metadata.downloadURLs[0];
+              console.log(photo);
+              photo.url = metadata.downloadURLs[0];
+              console.log(photo)
             });
           }
         }
-        response.json().data as Photo[]
+        console.log(photos);
+        return photos;
       })
       .catch(this.handleError);
   }
